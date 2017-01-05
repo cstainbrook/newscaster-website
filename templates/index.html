@@ -31,7 +31,10 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js">
+    </script>
+    <script src='static/yt.js'>
+    </script>
 </head>
 
 <body id="page-top">
@@ -79,15 +82,18 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 text-center">
-                    <h2 style='font-size:350%; color:MidnightBlue' class="section-heading">Madison Alworth</h2>
+                    <h2 style='font-size:350%; color:MidnightBlue' class="section-heading">MADISON ALWORTH</h2>
                     <hr style='border-color:MidnightBlue' class="light">
-                    <p style='color:MidnightBlue' class="text-faded">Madison Alworth is a multimedia journalist with both the professional background from a media giant and the entrepreneurial experience from starting her own digital news platform. While at Yale, Madison created YTV, Yale’s only broadcast news desk. The digital-first platform quickly grew and went from the Yale Daily News’ newest desk to one of its most popular. After graduating from Yale in 2015, Madison was selected from a pool of 2000 applicants as 1 of the 8 members of the 2015 News Associate class. Since then, Madison has worked on Nightly News with Lester Holt, in the northeast bureau as an associate field producer, and most recently, on the Today Show. Madison fully DJs entire interviews, produces live segments, and pitches creative videos. Madison is a TV producer with expansive digital knowledge and a passion for online reporting. </p>
+                    <p style='color:MidnightBlue' class="text-faded">Madison Alworth is a multimedia journalist with both the professional background from a media giant and the entrepreneurial experience from starting her own digital news platform. While at Yale, Madison created YTV, Yale’s only broadcast news desk. The digital-first platform quickly grew and went from the Yale Daily News’ newest desk to one of its most popular. After graduating from Yale in 2015, Madison was selected from a pool of 2000 applicants as 1 of the 8 members of the 2015 NBC News Associate class. Since then, Madison has worked on Nightly News with Lester Holt, in the northeast bureau as an associate field producer, and most recently, on the Today Show. Madison fully DJs entire interviews, produces live segments, and pitches creative videos. Madison is a TV producer with expansive digital knowledge and a passion for online reporting. </p>
                 </div>
             </div>
         </div>
     </section>
 
-    <iframe style='border:0 none' style="overflow:hidden;height:100%;width:100%" width='100%' height='100%' src='https://www.youtube.com/embed/XQmQLBSK6Lg?autoplay=1'  id="reel"></iframe>
+    <!-- <iframe style='border:0 none' style="overflow:hidden;height:100%;width:100%" width='100%' height='100%' src='https://www.youtube.com/embed/XQmQLBSK6Lg?autoplay=1'  id="video1"></iframe> -->
+
+    <iframe id="playerA" frameborder="0" title="YouTube video player" type="text/html" style="overflow:hidden;height:80%;width:100%" width='100%' height='80%' src="https://www.youtube.com/embed/XQmQLBSK6Lg?enablejsapi=1"></iframe>
+
 
     <hr style='opacity:0'>
     <hr style='opacity:0'>
@@ -187,12 +193,77 @@
     <script src="static/vendor/bootstrap/js/bootstrap.min.js"></script>
 
     <!-- Plugin JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script> -->
     <script src="static/vendor/scrollreveal/scrollreveal.min.js"></script>
     <script src="static/vendor/magnific-popup/jquery.magnific-popup.min.js"></script>
 
     <!-- Theme JavaScript -->
     <script src="static/js/creative.min.js"></script>
+    <script type=text/javascript>
+    $(window).load(function(){
+    var LoadVideo = function(player_id){
+
+        var Program = {
+
+            Init: function(){
+                this.NewPlayer();
+                this.EventHandler();
+            },
+
+            NewPlayer: function(){
+                var _this = this;
+                this.Player = new YT.Player(player_id, {});
+                _this.Player.$element = $('#' + player_id);
+            },
+
+            Play: function(){
+                if( this.Player.getPlayerState() === 1 ) return;
+                this.Player.playVideo();
+            },
+
+            Pause: function(){
+                if( this.Player.getPlayerState() === 2 ) return;
+                this.Player.pauseVideo();
+            },
+
+            ScrollControl: function(){
+                if( Utils.IsElementInViewport(this.Player.$element[0]) ) this.Play();
+                else this.Pause();
+            },
+
+            EventHandler: function(){
+                var _this = this;
+                $(window).on('scroll', function(){
+                    _this.ScrollControl();
+                });
+            }
+
+        };
+
+        var Utils = {
+
+            /** @author http://stackoverflow.com/a/7557433/1684970 */
+            IsElementInViewport: function(el){
+                if (typeof jQuery === "function" && el instanceof jQuery) el = el[0];
+                var rect = el.getBoundingClientRect();
+                return (
+                    rect.top >= 0 &&
+                    rect.left >= 0 &&
+                    rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+                    rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+                );
+            }
+
+        };
+
+        return Program.Init();
+
+    };
+
+    LoadVideo('playerA');
+
+    })
+    </script>
 
 </body>
 
